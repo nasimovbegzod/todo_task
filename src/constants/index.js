@@ -1,1 +1,1 @@
-export const ENDPOINT = 'http://localhost:2222/'
+export const ENDPOINT = 'https://to-to-sewise.onrender.com/'
