@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import PropTypes from "prop-types";
 
 const TaskCard = ({ task_description, task_id, id, created_at }) => {
   const [checked, setChecked] = useState(false);
@@ -55,5 +56,10 @@ const TaskCard = ({ task_description, task_id, id, created_at }) => {
     </div>
   );
 };
-
+TaskCard.propTypes = {
+  task_description: PropTypes.string,
+  task_id: PropTypes.number,
+  id: PropTypes.number,
+  created_at: PropTypes.string
+};
 export default TaskCard;

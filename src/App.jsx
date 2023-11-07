@@ -8,6 +8,7 @@ function App() {
   const [data, setData] = useState([]);
   const [callback, setCalback] = useState();
   const [id, setId] = useState(null);
+  const [postLoading, setPostloading] = useState(false)
 
   const [currentDateTime, setCurrentDateTime] = useState(getCurrentDateTime());
 
@@ -81,14 +82,15 @@ function App() {
     );
     const pariod = b.trim();
 
-    let pariod1 = words.find((el) => el !== "bugun" && el !== "ertaga");
-    pariod1 = "bugun";
+    // let pariod1 = words.find((el) => el !== "bugun" && el !== "ertaga");
+    // pariod1 = "bugun";
     let wordsNot = words.filter(
       (item) => !item.includes("bugun") && !item.includes("ertaga")
     );
     let task_description = wordsNot.join(" ");
 
     try {
+      setPostloading(true);
       const { data } = await request.post("post_task", {
         task_description,
         pariod,
@@ -97,6 +99,7 @@ function App() {
       refetch();
       e.target.task_value.value = "";
     } finally {
+      setPostloading(false);
     }
   };
 
@@ -115,9 +118,9 @@ function App() {
                 name="task_value"
                 className="mr-6 w-full border-gray outline-none border-4 rounded-md p-2 pl-4 text-slate-600 text-xl font-medium"
               />
-              <button
+              <button disabled={postLoading ? postLoading : postLoading}
                 type="submit"
-                className="p-2 pl-3 bg-[#89D7AD] pr-3 text-center font-bold border-4 text-lg border-[#3FA86F] rounded-md"
+                className= {`p-2 pl-3 bg-[#89D7AD] pr-3 text-center font-bold border-4 text-lg border-[#3FA86F] rounded-md ${postLoading ? "cursor-not-allowed" : ""}`}
               >
                 +
               </button>
@@ -131,7 +134,7 @@ function App() {
             <h1 className="text-2xl font-bold">Loading...</h1>
           ) : (
             Period.map((perid, i) => (
-              <Fragment>
+              <Fragment key={i}>
                 <h2 key={i} className="text-2xl font-bold mb-1 capitalize">
                   {perid}
                 </h2>
